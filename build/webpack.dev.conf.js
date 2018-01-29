@@ -16,6 +16,7 @@ const PORT = process.env.PORT && Number(process.env.PORT)
 // dev-server mock-data
 var appData = require('../data.json')
 var boardList = appData.boardList
+var login = appData.login
 
 
 
@@ -37,7 +38,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           errno: 0,
           data: boardList
         });
-      })
+      });
+      app.post('/api/login', (req, res) => { 
+        res.json({
+          errno: 0,
+          data: login
+        });
+      });
     },
     clientLogLevel: 'warning',
     historyApiFallback: {

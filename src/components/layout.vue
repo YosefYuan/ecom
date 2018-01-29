@@ -5,11 +5,13 @@
         <img src="../assets/logo.png" alt="">
         <div class="head-nav">
           <ul class="nav-list">
-            <li>登录</li>
+            <li v-if="!!username">{{username}}</li>
+            <li v-if="!username"  @click="showDialog('isShowLogDialog')">登录</li>
             <li class="nav-pile">|</li>
-            <li>注册</li>
+            <li v-if="!username" @click="showDialog('isShowRegDialog')">注册</li>
+            <li v-if="!!username" @click="quitLog">退出</li>
             <li class="nav-pile">|</li>
-            <li>关于</li>
+            <li @click="showDialog('isShowAboutDialog')">关于</li>
           </ul>
         </div>  
       </div>
@@ -21,14 +23,52 @@
     <div class="app-foot">
       <p>© 2018 YosefYuan MIT</p>
     </div>
+    <my-dialog :is-show="isShowLogDialog" @close="closeDialog('isShowLogDialog')">
+      <log-form @has-log="onSuccessLog"></log-form>
+    </my-dialog>
+    <my-dialog :is-show="isShowRegDialog" @close="closeDialog('isShowRegDialog')">
+      <reg-form></reg-form>
+    </my-dialog>
+    <my-dialog :is-show="isShowAboutDialog" @close="closeDialog('isShowAboutDialog')">
+      <h1 class="about-head">ABOUT</h1>
+      <p>The content of about.Just give a typical example.</p>
+    </my-dialog>
     </div>
   </div>
 </template>
 
 <script>
+import Dialog from "@/components/base/dialog";
+import LogForm from "@/components/logForm";
+import RegForm from "@/components/regForm";
 export default {
+  components: {
+    MyDialog: Dialog,
+    LogForm,
+    RegForm
+  },
   data() {
-    return {};
+    return {
+      isShowLogDialog: false,
+      isShowRegDialog: false,
+      isShowAboutDialog: false,
+      username: ""
+    };
+  },
+  methods: {
+    showDialog(attr) {
+      this[attr] = true;
+    },
+    closeDialog(attr) {
+      this[attr] = false;
+    },
+    onSuccessLog(data) {
+      this.username = data.username;
+      this.closeDialog("isShowLogDialog");
+    },
+    quitLog() {
+      this.username = "";
+    }
   }
 };
 </script>
@@ -261,5 +301,8 @@ body {
 .g-form-error {
   color: red;
   padding-left: 15px;
+}
+.about-head {
+  font-weight: bold;
 }
 </style>

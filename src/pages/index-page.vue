@@ -9,7 +9,7 @@
           <ul>
             <li :key="index2" v-for="(item, index2) in product.list">
               <a :href="item.url">{{item.name}}</a>
-              <span v-if="item.hot" class="hot-tag">hot G</span>
+              <span v-if="item.hot" class="hot-tag">Hot</span>
             </li>
           </ul>
           <div v-if="!product.last" class="hr"></div>
@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="index-right">
-       <slide-show></slide-show> 
+       <slide-show :slides="slides" :inv="slideSpeed" @onchange="doSomethingOnSlideChange"></slide-show> 
       <div class="index-board-list">
         <div :key="index" class="index-board-item" :class="[{'line-last':index%2!==0},'index-board-'+ item.id]" v-for="(item,index) in boardList">
           <div class="index-board-item-inner">
@@ -42,24 +42,49 @@
 </template>
 
 <script>
-import slideShow from '@/components/slideShow'
+import slideShow from "@/components/slideShow";
 
 export default {
   components: {
     slideShow
   },
   created: function() {
-    this.$http.post('/api/boardList')
-      .then((data) => {
-        this.boardList = data.data.data
+    this.$http.post("/api/boardList").then(
+      data => {
+        this.boardList = data.data.data;
         // this.boardList = data.
-      }, function(err) {
-        console.log(err)
-      })
+      },
+      err => {
+        console.log(err);
+      }
+    );
   },
   data() {
     return {
       boardList: [],
+      slideSpeed: 3000,
+      slides: [
+        {
+          src: require("@/assets/slideShow/pic1.jpg"),
+          title: "xxx1",
+          href: "detail/analysis"
+        },
+        {
+          src: require("@/assets/slideShow/pic2.jpg"),
+          title: "xxx2",
+          href: "detail/count"
+        },
+        {
+          src: require("@/assets/slideShow/pic3.jpg"),
+          title: "xxx3",
+          href: "http://xxx.xxx.com"
+        },
+        {
+          src: require("@/assets/slideShow/pic4.jpg"),
+          title: "xxx4",
+          href: "detail/forecast"
+        }
+      ],
       newsList: [
         {
           title: "数据统计",
@@ -126,6 +151,12 @@ export default {
         }
       }
     };
+  },
+  methods: {
+    doSomethingOnSlideChange(index) {
+      // console.log(index);
+      // console.log("doSomethingOnSlideChange run!");
+    }
   }
 };
 </script>
@@ -237,6 +268,7 @@ export default {
 .hot-tag {
   background: red;
   color: #fff;
+  padding: 0 0.3em;
 }
 
 .new-item {
