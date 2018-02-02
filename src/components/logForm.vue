@@ -81,7 +81,7 @@ export default {
         this.errorText = Rule.formRule.globalError;
       } else {
         this.errorText = "";
-        this.$http.post("api/login").then(
+        this.$http.post("/api/login").then(
           res => {
             this.$emit("has-log", res.data.data);
           },

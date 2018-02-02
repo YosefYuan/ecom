@@ -17,6 +17,7 @@ const PORT = process.env.PORT && Number(process.env.PORT)
 var appData = require('../data.json')
 var boardList = appData.boardList
 var login = appData.login
+var price = appData.price
 
 
 
@@ -43,6 +44,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         res.json({
           errno: 0,
           data: login
+        });
+      });
+      app.post('/api/price', (req, res) => { 
+        res.json({
+          errno: 0,
+          data: price
         });
       });
     },

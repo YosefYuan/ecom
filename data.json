@@ -28,8 +28,11 @@
       "saleout": false
     }
   ],
-  "login":{
+  "login": {
     "username": "Yosef",
     "usefId": "ecomtest"
+  },
+  "price": {
+    "amount": 666
   }
 }
