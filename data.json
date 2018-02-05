@@ -35,6 +35,9 @@
   "price": {
     "amount": 666
   },
+  "createOrder": {
+    "id": "test00000number"
+  },
   "checkOrder": {
     "id": "test00000number"
   }

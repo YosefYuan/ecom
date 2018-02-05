@@ -1,6 +1,6 @@
 <template>
   <div>
-    <my-dialog :is-show="isShowCheckDialog">
+    <my-dialog :is-show="isShowCheckDialog" @close="checkEmit">
       请检查你的支付状态！
       <div class="button" @click="paySuccess">
         支付成功
@@ -48,6 +48,9 @@ export default {
     payFail() {
       this.$emit("pay-fail");
     },
+    checkEmit() {
+      this.$emit("check-status");
+    }
   }
 };
 </script>

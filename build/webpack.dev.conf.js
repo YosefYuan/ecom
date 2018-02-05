@@ -18,6 +18,7 @@ var appData = require('../data.json')
 var boardList = appData.boardList
 var login = appData.login
 var price = appData.price
+var createOrder = appData.createOrder
 var checkOrder = appData.checkOrder
 
 
@@ -51,6 +52,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         res.json({
           errno: 0,
           data: price
+        });
+      });
+      app.post('/api/createOrder', (req, res) => { 
+        res.json({
+          errno: 0,
+          data: createOrder
         });
       });
       app.post('/api/checkOrder', (req, res) => { 
