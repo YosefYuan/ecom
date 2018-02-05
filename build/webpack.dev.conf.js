@@ -18,6 +18,7 @@ var appData = require('../data.json')
 var boardList = appData.boardList
 var login = appData.login
 var price = appData.price
+var checkOrder = appData.checkOrder
 
 
 
@@ -34,7 +35,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   // these devServer options should be customized in /config/index.js
   devServer: {
     before(app) {
-      app.post('/api/boardList', (req, res) => { // 注意这里改为post就可以了
+      app.post('/api/boardList', (req, res) => { 
         res.json({
           errno: 0,
           data: boardList
@@ -50,6 +51,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         res.json({
           errno: 0,
           data: price
+        });
+      });
+      app.post('/api/checkOrder', (req, res) => { 
+        res.json({
+          errno: 0,
+          data: checkOrder
         });
       });
     },

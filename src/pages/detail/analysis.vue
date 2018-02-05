@@ -48,35 +48,36 @@
           <div class="sales-board-line">
               <div class="sales-board-line-left">&nbsp;</div>
               <div class="sales-board-line-right">
-                  <div class="button" @click="isShowPayDialog=true">
+                  <div class="button" @click="ShowPayDialog">
                     立即购买
                   </div>
               </div>
           </div>
-          <my-dialog :is-show="isShowPayDialog" @close="closePayDialog">
-            <table class="buy-dialog-table">
-              <tr>
-                <th>购买数量</th>
-                <th>产品类型</th>
-                <th>有效时间</th>
-                <th>产品版本</th>
-                <th>总价</th>
-              </tr>
-              <tr>
-                <td>{{number}}</td>
-                <td>{{test}}</td>
-                <td>{{periodVal.label}}</td>
-                <td>{{versionVal.label}}</td>
-                <td>{{amount}}</td>
-              </tr>
-            </table>
-            <!-- <h3 class="buy-dialog-title">请选择银行</h3>
-            <bank-chooser @on-change="onChangeBanks"></bank-chooser>
-            <div class="button buy-dialog-btn" @click="confirmBuy">
-              确认购买
-            </div> -->
-        </my-dialog>
       </div>
+      <my-dialog :is-show="isShowPayDialog" @close="closePayDialog">
+        <table class="buy-dialog-table">
+          <tr>
+            <th>购买数量</th>
+            <th>产品类型</th>
+            <th>有效时间</th>
+            <th>产品版本</th>
+            <th>总价</th>
+          </tr>
+          <tr>
+            <td>{{number}}</td>
+            <td>{{test}}</td>
+            <td>{{periodVal.label}}</td>
+            <td>{{versionVal.label}}</td>
+            <td>{{amount}}</td>
+          </tr>
+        </table>
+        <h3 class="buy-dialog-title">请选择银行</h3>
+        <bank-chooser @on-bank-change="changeBank"></bank-chooser>
+        <div class="button buy-dialog-btn" @click="confirmBuy">
+          确认购买
+        </div>
+      </my-dialog>
+      <check-order :is-show-check-dialog="isShowCheckDialog" :is-show-success-dialog="isShowSuccessDialog"  :is-show-fail-dialog="isShowFailDialog" @pay-success="paySuccess" @pay-fail="payFail"></check-order>
       <div class="sales-board-des">
         <h2>产品说明</h2>
         <p>网站访问统计分析报告的基础数据源于网站流量统计信息，但其价值远高于原始数据资料。专业的网站访问统计分析报告对网络营销的价值，正如专业的财务分析报告对企业经营策略的价值。</p>
@@ -108,17 +109,22 @@ import Counter from "@/components/base/counter";
 import Chooser from "@/components/base/chooser";
 import MutiplyChooser from "@/components/base/mutiplyChooser";
 import MyDialog from "@/components/base/dialog";
-// import BankChooser from "@/components/base/bankChooser";
+import BankChooser from "@/components/base/bankChooser";
+import checkOrder from "@/components/base/checkOrder";
 export default {
   data() {
     return {
-      isShowPayDialog: true,
+      isShowCheckDialog: false,
+      isShowSuccessDialog: false,
+      isShowFailDialog: false,
+      orderId: "",
+      isShowPayDialog: false,
       amount: 0,
       number: 0,
       minNum: 25,
       maxNum: 35,
       numLevel: 5,
-      buyTypesArr: "",
+      buyTypesArr: [],
       buyTypesVal: [],
       versionVal: {},
       periodVal: {},
@@ -167,19 +173,20 @@ export default {
     };
   },
   components: {
-    // BankChooser,
+    BankChooser,
     MyDialog,
     Selection,
     Counter,
     Chooser,
-    MutiplyChooser
+    MutiplyChooser,
+    checkOrder
   },
   mounted() {
     this.initPostParam();
     this.getPrice();
   },
-  computed:{
-    test(){
+  computed: {
+    test() {
       return this.buyTypesArr.join();
     }
   },
@@ -201,17 +208,55 @@ export default {
         number: this.number,
         versionType: this.versionVal.value,
         periodType: this.periodVal.value,
-        buyType: this.buyTypesArr.join(",")
+        buyType: this.buyTypesArr.join()
       };
     },
     getPrice() {
-      let postParam = this.formatPostParam();
-      this.$http.post("/api/price", postParam).then(res => {
-        this.amount = res.data.data.amount;
-      });
+      this.postParam = this.formatPostParam();
+      this.$http.post("/api/price", this.postParam).then(
+        res => {
+          this.amount = res.data.data.amount;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    },
+    ShowPayDialog() {
+      this.isShowPayDialog = true;
     },
     closePayDialog() {
       this.isShowPayDialog = false;
+    },
+    changeBank(bankObj) {
+      this.bankObj = bankObj;
+      console.log(this.bankObj.id);
+    },
+    confirmBuy() {
+      this.isShowPayDialog = false;
+      this.allPostParam = Object.assign(this.postParam, {
+        bankId: this.bankObj.id
+      });
+      // console.log(this.allPostParam);
+      this.$http.post("/api/checkOrder", this.allPostParam).then(
+        res => {
+          // console.log(res.data.data.id);
+          let agentData = res.data.data;
+          this.orderId = agentData.id;
+          this.isShowCheckDialog = true;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    },
+    paySuccess() {
+      this.isShowCheckDialog = false;
+      this.isShowSuccessDialog = true;
+    },
+    payFail() {
+      this.isShowCheckDialog = false;
+      this.isShowFailDialog = true;
     }
   }
 };
