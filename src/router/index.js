@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import IndexPage from '@pages/index-page'
+import orderListPage from '@pages/orderList-page'
 import DetailPage from '@pages/detail-page'
 import DetailAnalysis from '@pages/detail/analysis'
 import DetailCount from '@pages/detail/count'
@@ -16,8 +17,12 @@ export default new Router({
       component: IndexPage
     },
     {
+      path: '/orderList',
+      component: orderListPage
+    },
+    {
       path: '/detail',
-      redirect:'/detail/analysis',
+      redirect: '/detail/analysis',
       component: DetailPage,
       children: [{
           path: 'forecast',

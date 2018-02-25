@@ -20,6 +20,7 @@ var login = appData.login
 var price = appData.price
 var createOrder = appData.createOrder
 var checkOrder = appData.checkOrder
+var getOrderList = appData.getOrderList
 
 
 
@@ -64,6 +65,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         res.json({
           errno: 0,
           data: checkOrder
+        });
+      });
+      app.post('/api/getOrderList', (req, res) => { 
+        res.json({
+          errno: 0,
+          data: getOrderList
         });
       });
     },

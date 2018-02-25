@@ -8,33 +8,33 @@
         <div class="head-nav">
           <ul class="nav-list">
             <li v-if="!!username">{{username}}</li>
-            <li v-if="!username"  @click="showDialog('isShowLogDialog')">登录</li>
+            <li v-if="!username" @click="showDialog('isShowLogDialog')">登录</li>
             <li class="nav-pile">|</li>
             <li v-if="!username" @click="showDialog('isShowRegDialog')">注册</li>
             <li v-if="!!username" @click="quitLog">退出</li>
             <li class="nav-pile">|</li>
             <li @click="showDialog('isShowAboutDialog')">关于</li>
           </ul>
-        </div>  
+        </div>
       </div>
       <div class="app-content">
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
       </div>
-    <div class="app-foot">
-      <p>© 2018 YosefYuan MIT</p>
-    </div>
-    <my-dialog :is-show="isShowLogDialog" @close="closeDialog('isShowLogDialog')">
-      <log-form @has-log="onSuccessLog"></log-form>
-    </my-dialog>
-    <my-dialog :is-show="isShowRegDialog" @close="closeDialog('isShowRegDialog')">
-      <reg-form></reg-form>
-    </my-dialog>
-    <my-dialog :is-show="isShowAboutDialog" @close="closeDialog('isShowAboutDialog')">
-      <h1 class="about-head">ABOUT</h1>
-      <p>The content of about.Just give a typical example.</p>
-    </my-dialog>
+      <div class="app-foot">
+        <p>© 2018 YosefYuan MIT</p>
+      </div>
+      <my-dialog :is-show="isShowLogDialog" @close="closeDialog('isShowLogDialog')">
+        <log-form @has-log="onSuccessLog"></log-form>
+      </my-dialog>
+      <my-dialog :is-show="isShowRegDialog" @close="closeDialog('isShowRegDialog')">
+        <reg-form></reg-form>
+      </my-dialog>
+      <my-dialog :is-show="isShowAboutDialog" @close="closeDialog('isShowAboutDialog')">
+        <h1 class="about-head">ABOUT</h1>
+        <p>The content of about.Just give a typical example.</p>
+      </my-dialog>
     </div>
   </div>
 </template>
@@ -168,8 +168,12 @@ video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  line-height: 1;
 }
+
+
 /* HTML5 display-role reset for older browsers */
+
 article,
 aside,
 details,
@@ -183,17 +187,21 @@ nav,
 section {
   display: block;
 }
+
 body {
   line-height: 1;
 }
+
 ol,
 ul {
   list-style: none;
 }
+
 blockquote,
 q {
   quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -201,22 +209,26 @@ q:after {
   content: "";
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 a {
   color: inherit;
   text-decoration: none;
 }
+
 body {
   background: #f0f2f5;
   font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB",
-    "Hiragino Sans GB W3", "Microsoft YaHei UI", "Microsoft YaHei",
-    "WenQuanYi Micro Hei", sans-serif;
+  "Hiragino Sans GB W3", "Microsoft YaHei UI", "Microsoft YaHei",
+  "WenQuanYi Micro Hei", sans-serif;
   font-size: 14px;
   color: #444;
 }
+
 .app-head {
   background: #363636;
   color: #b2b2b2;
@@ -224,30 +236,38 @@ body {
   line-height: 90px;
   width: 100%;
 }
+
 .app-head-inner {
   width: 1200px;
   margin: 0 auto;
 }
+
 .head-logo {
   float: left;
 }
+
 .app-head-inner img {
   width: 50px;
   margin-top: 20px;
 }
+
 .head-nav {
   float: right;
 }
+
 .head-nav ul {
   overflow: hidden;
 }
+
 .head-nav li {
   cursor: pointer;
   float: left;
 }
+
 .nav-pile {
   padding: 0 10px;
 }
+
 .app-foot {
   text-align: center;
   height: 80px;
@@ -257,15 +277,18 @@ body {
   clear: both;
   margin-top: 30px;
 }
+
 .container {
   width: 1200px;
   margin: 0 auto;
 }
+
 .hr {
   height: 1px;
   width: 100%;
   background: #ddd;
 }
+
 .button {
   background: #4fc08d;
   color: #fff;
@@ -273,22 +296,27 @@ body {
   padding: 10px 20px;
   cursor: pointer;
 }
+
 .button:hover {
   background: #4fc08d;
 }
-.g-form {
-}
+
+.g-form {}
+
 .g-form-line {
   padding: 15px 0;
 }
+
 .g-form-label {
   width: 100px;
   font-size: 16px;
   display: inline-block;
 }
+
 .g-form-input {
   display: inline-block;
 }
+
 .g-form-input input {
   height: 30px;
   width: 200px;
@@ -297,13 +325,16 @@ body {
   padding: 0 10px;
   border: 1px solid #ccc;
 }
+
 .g-form-btn {
   padding-left: 100px;
 }
+
 .g-form-error {
   color: red;
   padding-left: 15px;
 }
+
 .about-head {
   font-weight: bold;
 }
